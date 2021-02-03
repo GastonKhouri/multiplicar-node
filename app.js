@@ -1,27 +1,10 @@
-const argv = require('./config/yargs').argv;
-const colors = require('colors/safe');
+const { crearArchivo } = require('./helpers/multiplicar');
+const argv = require('./config/yargs');
+require('colors');
 
-const { crearArchivo, listarTabla } = require('./multiplicar/multiplicar')
+// console.clear();
+process.stdout.write('\033c');
 
-let comando = argv._[0];
-
-switch (comando) {
-    case 'listar':
-        listarTabla(argv.base, argv.limite);
-        break;
-
-    case 'crear':
-        crearArchivo(argv.base, argv.limite)
-            .then(archivo => console.log('Archivo creado:', colors.green(archivo)))
-            .catch(e => console.log(e));
-        break;
-
-    default:
-        console.log('Comando no reconocido.');
-        break;
-}
-
-// console.log(argv.process);
-
-// let parametro = argv[2];
-// let base = parametro.split('=')[1]
+crearArchivo(argv.b, argv.l, argv.h)
+    .then(nombreArchivo => console.log(nombreArchivo.green, 'creado'))
+    .catch(err => console.log('error', err));
